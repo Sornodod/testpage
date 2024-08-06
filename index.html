@@ -60,6 +60,8 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             padding: 10px;
             box-sizing: border-box;
+            display: flex;
+            justify-content: space-around;
         }
         .popup button {
             padding: 5px 10px;
@@ -88,6 +90,7 @@
     </div>
     <div class="popup" id="popup">
         <button id="roadButton">ДОРОГА</button>
+        <button id="towerButton">БАШНЯ</button>
     </div>
 
     <script>
@@ -97,12 +100,17 @@
         // Показываем/скрываем всплывающее окно
         document.getElementById('buildButton').addEventListener('click', function() {
             const popup = document.getElementById('popup');
-            popup.style.display = (popup.style.display === 'none' || popup.style.display === '') ? 'block' : 'none';
+            popup.style.display = (popup.style.display === 'none' || popup.style.display === '') ? 'flex' : 'none';
         });
 
         // Переключение на режим "Рисование дороги"
         document.getElementById('roadButton').addEventListener('click', function() {
             mode = 'draw';
+        });
+
+        // Переключение на режим "Рисование башни"
+        document.getElementById('towerButton').addEventListener('click', function() {
+            mode = 'tower';
         });
 
         // Переключение на режим "Удаление окраски"
@@ -115,6 +123,8 @@
             if (e.target && e.target.nodeName === 'DIV') {
                 if (mode === 'draw') {
                     e.target.style.backgroundColor = 'black';
+                } else if (mode === 'tower') {
+                    e.target.style.backgroundColor = 'blue';
                 } else if (mode === 'erase') {
                     e.target.style.backgroundColor = 'white';
                 }
