@@ -3,36 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TDT Game</title>
+    <title>Кнопки за рамкой</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
         }
         .container {
-            display: flex;
-            border: 1px solid #000;
-            width: 600px;
-            height: 400px;
-            background-color: #fff;
-        }
-        .map {
-            flex: 1;
-            border: 1px solid #000;
-            position: relative;
+            width: 300px;
+            height: 200px;
+            border: 1px solid black;
             margin: 20px;
+            position: relative;
+        }
+        .buttons {
+            position: absolute;
+            bottom: -50px; /* Располагаем кнопки за пределами рамки */
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+        .buttons button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        .tech-button {
+            position: absolute;
+            bottom: -50px;
+            right: 20px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="map"></div>
+        <!-- Содержимое рамки -->
+    </div>
+    <div class="buttons">
+        <button>ПОСТРОИТЬ</button>
+        <button>УДАЛИТЬ</button>
+        <button class="tech-button">ТЕХНОЛОГИИ</button>
     </div>
 </body>
 </html>
