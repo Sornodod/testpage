@@ -83,7 +83,7 @@
     </div>
     <div class="buttons">
         <button id="buildButton">ПОСТРОИТЬ</button>
-        <button>УДАЛИТЬ</button>
+        <button id="deleteButton">УДАЛИТЬ</button>
         <button class="tech-button">ТЕХНОЛОГИИ</button>
     </div>
     <div class="popup" id="popup">
@@ -97,13 +97,35 @@
             popup.style.display = (popup.style.display === 'none' || popup.style.display === '') ? 'block' : 'none';
         });
 
-        // Окрашивание ячеек в черный цвет
+        // Переменная для отслеживания текущего режима
+        let mode = '';
+
+        // Переключение на режим "Рисование дороги"
         document.getElementById('roadButton').addEventListener('click', function() {
-            document.querySelector('.container').addEventListener('click', function(e) {
-                if (e.target && e.target.nodeName === 'DIV') {
+            mode = 'draw';
+            document.querySelector('.container').addEventListener('click', handleClick);
+        });
+
+        // Переключение на режим "Удаление окраски"
+        document.getElementById('deleteButton').addEventListener('click', function() {
+            mode = 'erase';
+            document.querySelector('.container').addEventListener('click', handleClick);
+        });
+
+        // Обработка кликов в зависимости от текущего режима
+        function handleClick(e) {
+            if (e.target && e.target.nodeName === 'DIV') {
+                if (mode === 'draw') {
                     e.target.style.backgroundColor = 'black';
+                } else if (mode === 'erase') {
+                    e.target.style.backgroundColor = 'white';
                 }
-            });
+            }
+        }
+
+        // Отключаем обработчик кликов при переключении режима
+        document.querySelector('.container').addEventListener('mousedown', function() {
+            document.querySelector('.container').removeEventListener('click', handleClick);
         });
     </script>
 </body>
