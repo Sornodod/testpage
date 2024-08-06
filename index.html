@@ -97,12 +97,13 @@
     </div>
 
     <script>
+        let mode = '';
+
         document.addEventListener('DOMContentLoaded', () => {
             const canvas = document.getElementById('gridCanvas');
             const ctx = canvas.getContext('2d');
             const cellSize = 20;
             let columns, rows;
-            let mode = '';
 
             function resizeCanvas() {
                 canvas.width = window.innerWidth;
@@ -162,11 +163,11 @@
                 if (x >= 0 && x < columns && y >= 0 && y < rows) {
                     switch (mode) {
                         case 'draw':
-                            ctx.fillStyle = 'black';
+                            ctx.fillStyle = 'black'; // Цвет для режима "ДОРОГА"
                             ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
                             break;
                         case 'tower':
-                            ctx.fillStyle = 'blue';
+                            ctx.fillStyle = 'blue'; // Цвет для режима "БАШНЯ"
                             ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
                             break;
                         case 'erase':
@@ -187,15 +188,15 @@
         });
 
         document.getElementById('roadButton').addEventListener('click', () => {
-            mode = 'draw';
+            mode = 'draw'; // Устанавливаем режим "ДОРОГА"
         });
 
         document.getElementById('towerButton').addEventListener('click', () => {
-            mode = 'tower';
+            mode = 'tower'; // Устанавливаем режим "БАШНЯ"
         });
 
         document.getElementById('deleteButton').addEventListener('click', () => {
-            mode = 'erase';
+            mode = 'erase'; // Устанавливаем режим "Удаление"
         });
     </script>
 </body>
