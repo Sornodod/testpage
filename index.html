@@ -22,17 +22,14 @@
             position: relative;
             background-color: white; /* Белый фон рамки */
             display: grid;
-            grid-template-columns: repeat(auto-fill, 10px);
-            grid-template-rows: repeat(auto-fill, 10px);
-            background-image: linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
-            background-size: 10px 10px;
+            grid-template-columns: repeat(100, 10px); /* 100 колонок по 10px */
+            grid-template-rows: repeat(60, 10px); /* 60 строк по 10px */
         }
         .container div {
             width: 10px;
             height: 10px;
             background-color: white;
-            border: 1px solid transparent; /* Добавляем прозрачную границу для управления событиями клика */
+            border: 1px solid rgba(0, 0, 0, 0.1); /* Легкая граница для видимости */
         }
         .buttons {
             position: absolute;
@@ -72,14 +69,16 @@
 </head>
 <body>
     <div class="container">
-        <!-- Содержимое рамки -->
         <!-- Генерируем ячейки сетки -->
         <script>
-            const container = document.querySelector('.container');
-            for (let i = 0; i < 6000; i++) { // 100x60 = 6000 ячеек
-                const cell = document.createElement('div');
-                container.appendChild(cell);
-            }
+            document.addEventListener('DOMContentLoaded', () => {
+                const container = document.querySelector('.container');
+                const totalCells = 100 * 60; // 100 колонок x 60 строк
+                for (let i = 0; i < totalCells; i++) {
+                    const cell = document.createElement('div');
+                    container.appendChild(cell);
+                }
+            });
         </script>
     </div>
     <div class="buttons">
