@@ -3,21 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Web App</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <title>TDT Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .container {
+            display: flex;
+            border: 1px solid #000;
+            width: 600px;
+            height: 400px;
+            background-color: #fff;
+        }
+        .map {
+            flex: 1;
+            border: 1px solid #000;
+            position: relative;
+            margin: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to Telegram Web App!</h1>
-    <button id="sendButton">Send Message</button>
-
-    <script>
-        const tg = window.Telegram.WebApp;
-
-        document.getElementById('sendButton').addEventListener('click', () => {
-            tg.sendData("Hello from Web App!");
-        });
-
-        tg.expand(); // Expand the Web App
-    </script>
+    <div class="container">
+        <div class="map"></div>
+    </div>
 </body>
 </html>
