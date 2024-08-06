@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кнопки за рамкой</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: white;
+        }
+        .start-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 10px 15px;
+            font-size: 1rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .container {
+            width: 100%;
+            height: calc(100% - 60px);
+            border: 1px solid black;
+            box-sizing: border-box;
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+            grid-template-rows: repeat(auto-fill, minmax(20px, 1fr));
+        }
+        .container div {
+            background-color: white;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        .buttons {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            box-sizing: border-box;
+            background-color: white;
+        }
+        .buttons button {
+            padding: 10px 15px;
+            font-size: 0.75rem;
+        }
+        .tech-button {
+            margin-left: auto;
+        }
+        .popup {
+            display: none;
+            position: absolute;
+            bottom: 70px;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            border: 1px solid black;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-around;
+        }
+        .popup button {
+            padding: 5px 10px;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <button class="start-button">НАЧАТЬ</button>
+    <div class="container"></div>
+    <div class="buttons">
+        <button id="buildButton">ПОСТРОИТЬ</button>
+        <button id="deleteButton">УДАЛИТЬ</button>
+        <button class="tech-button">ТЕХНОЛОГИИ</button>
+    </div>
+    <div class="popup" id="popup">
+        <button id="roadButton">ДОРОГА</button>
+        <button id="towerButton">БАШНЯ</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.querySelector('.container');
+            const cellSize = 20;
+            const columns = Math.floor(window.innerWidth / cellSize);
+            const rows = Math.floor((window.innerHeight - 60) / cellSize);
+
+            container.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+            container.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+
+            for (let i = 0; i < columns * rows; i++) {
+                const cell = document.createElement('div');
+                container.appendChild(cell);
+            }
+
+            window.addEventListener('resize', () => {
+                const columns = Math.floor(window.innerWidth / cellSize);
+                const rows = Math.floor((window.innerHeight - 60) / cellSize);
+                container.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+                container.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+            });
+        });
+
+        let mode = '';
+
+        document.getElementById('buildButton').addEventListener('click', () => {
+            const popup = document.getElementById('popup');
+            popup.style.display = (popup.style.display === 'none' || popup.style.display === '') ? 'flex' : 'none';
+        });
+
+        document.getElementById('roadButton').addEventListener('click', () => {
+            mode = 'draw';
+        });
+
+        document.getElementById('towerButton').addEventListener('click', () => {
+            mode = 'tower';
+        });
+
+        document.getElementById('deleteButton').addEventListener('click', () => {
+            mode = 'erase';
+        });
+
+        document.querySelector('.container').addEventListener('click', (e) => {
+            if (e.target && e.target.nodeName === 'DIV') {
+                if (mode === 'draw') {
+                    e.target.style.backgroundColor = 'black';
+                } else if (mode === 'tower') {
+                    e.target.style.backgroundColor = 'blue';
+                } else if (mode === 'erase') {
+                    e.target.style.backgroundColor = 'white';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
