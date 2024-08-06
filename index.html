@@ -11,8 +11,8 @@
             font-family: Arial, sans-serif;
             width: 100vw;
             height: 100vh;
-            overflow: hidden; /* Отключаем прокрутку */
-            background-color: white; /* Белый фон страницы */
+            overflow: hidden;
+            background-color: white;
         }
         .start-button {
             position: absolute;
@@ -20,26 +20,25 @@
             left: 10px;
             padding: 10px 15px;
             font-size: 1rem;
-            background-color: #007bff; /* Цвет фона кнопки */
-            color: white; /* Цвет текста кнопки */
+            background-color: #007bff;
+            color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
         .container {
             width: 100%;
-            height: calc(100% - 60px); /* Учитываем высоту кнопок и отступы */
+            height: calc(100% - 60px);
             border: 1px solid black;
             box-sizing: border-box;
             position: relative;
-            background-color: white; /* Белый фон рамки */
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(20px, 1fr)); /* Автоматическая подстройка колонок */
-            grid-template-rows: repeat(auto-fit, minmax(20px, 1fr)); /* Автоматическая подстройка строк */
+            grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+            grid-template-rows: repeat(auto-fill, minmax(20px, 1fr));
         }
         .container div {
             background-color: white;
-            border: 1px solid rgba(0, 0, 0, 0.1); /* Легкая граница для видимости */
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
         .buttons {
             position: absolute;
@@ -48,21 +47,21 @@
             width: 100%;
             display: flex;
             justify-content: space-between;
-            padding: 10px; /* Увеличиваем отступ для кнопок */
+            padding: 10px;
             box-sizing: border-box;
-            background-color: white; /* Белый фон для кнопок */
+            background-color: white;
         }
         .buttons button {
-            padding: 10px 15px; /* Увеличиваем отступы кнопок */
-            font-size: 0.75rem; /* Размер шрифта кнопок */
+            padding: 10px 15px;
+            font-size: 0.75rem;
         }
         .tech-button {
             margin-left: auto;
         }
         .popup {
-            display: none; /* Скрываем выпадающее окно по умолчанию */
+            display: none;
             position: absolute;
-            bottom: 70px; /* Положение окна выше кнопок */
+            bottom: 70px;
             left: 0;
             width: 100%;
             background-color: white;
@@ -80,66 +79,8 @@
     </style>
 </head>
 <body>
-    <button class="start-button">НАЧАТЬ</button> <!-- Кнопка НАЧАТЬ -->
-    <div class="container">
-        <!-- Генерируем ячейки сетки -->
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const container = document.querySelector('.container');
-                const columns = Math.floor(window.innerWidth / 20);
-                const rows = Math.floor((window.innerHeight - 60) / 20); // Учитываем высоту кнопок и отступы
-                const totalCells = columns * rows;
-                
-                container.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
-                container.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
-
-                for (let i = 0; i < totalCells; i++) {
-                    const cell = document.createElement('div');
-                    container.appendChild(cell);
-                }
-
-                function getRandomInt(max) {
-                    return Math.floor(Math.random() * max);
-                }
-
-                function getDistance(x1, y1, x2, y2) {
-                    return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
-                }
-
-                function placeColors() {
-                    const columns = Math.floor(window.innerWidth / 20);
-                    const rows = Math.floor((window.innerHeight - 60) / 20);
-                    let x1 = getRandomInt(columns);
-                    let y1 = getRandomInt(rows);
-                    let x2 = getRandomInt(columns);
-                    let y2 = getRandomInt(rows);
-                    
-                    while (getDistance(x1, y1, x2, y2) < 50) { // Убедиться, что расстояние больше 50
-                        x2 = getRandomInt(columns);
-                        y2 = getRandomInt(rows);
-                    }
-
-                    const index1 = y1 * columns + x1;
-                    const index2 = y2 * columns + x2;
-                    const cells = document.querySelectorAll('.container div');
-
-                    cells[index1].style.backgroundColor = 'red';
-                    cells[index2].style.backgroundColor = 'green';
-                }
-
-                // Вызвать функцию после загрузки контента
-                placeColors();
-
-                // Обработчик изменения размера окна
-                window.addEventListener('resize', () => {
-                    const columns = Math.floor(window.innerWidth / 20);
-                    const rows = Math.floor((window.innerHeight - 60) / 20);
-                    container.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
-                    container.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
-                });
-            });
-        </script>
-    </div>
+    <button class="start-button">НАЧАТЬ</button>
+    <div class="container"></div>
     <div class="buttons">
         <button id="buildButton">ПОСТРОИТЬ</button>
         <button id="deleteButton">УДАЛИТЬ</button>
@@ -151,32 +92,64 @@
     </div>
 
     <script>
-        // Переменная для отслеживания текущего режима
-        let mode = '';
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.querySelector('.container');
+            const cellSize = 20;
+            const columns = Math.floor(window.innerWidth / cellSize);
+            const rows = Math.floor((window.innerHeight - 60) / cellSize);
 
-        // Показываем/скрываем всплывающее окно
-        document.getElementById('buildButton').addEventListener('click', function() {
-            const popup = document.getElementById('popup');
-            popup.style.display = (popup.style.display === 'none' || popup.style.display === '') ? 'flex' : 'none';
+            container.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+            container.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+
+            for (let i = 0; i < columns * rows; i++) {
+                const cell = document.createElement('div');
+                container.appendChild(cell);
+            }
+
+            function placeColors() {
+                const x1 = Math.floor(Math.random() * columns);
+                const y1 = Math.floor(Math.random() * rows);
+                const x2 = Math.floor(Math.random() * columns);
+                const y2 = Math.floor(Math.random() * rows);
+
+                const index1 = y1 * columns + x1;
+                const index2 = y2 * columns + x2;
+                const cells = document.querySelectorAll('.container div');
+
+                cells[index1].style.backgroundColor = 'red';
+                cells[index2].style.backgroundColor = 'green';
+            }
+
+            placeColors();
+
+            window.addEventListener('resize', () => {
+                const columns = Math.floor(window.innerWidth / cellSize);
+                const rows = Math.floor((window.innerHeight - 60) / cellSize);
+                container.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+                container.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+            });
         });
 
-        // Переключение на режим "Рисование дороги"
-        document.getElementById('roadButton').addEventListener('click', function() {
+        document.getElementById('buildButton').addEventListener('click', () => {
+            document.getElementById('popup').style.display = 
+                document.getElementById('popup').style.display === 'none' ? 'flex' : 'none';
+        });
+
+        document.getElementById('roadButton').addEventListener('click', () => {
             mode = 'draw';
         });
 
-        // Переключение на режим "Рисование башни"
-        document.getElementById('towerButton').addEventListener('click', function() {
+        document.getElementById('towerButton').addEventListener('click', () => {
             mode = 'tower';
         });
 
-        // Переключение на режим "Удаление окраски"
-        document.getElementById('deleteButton').addEventListener('click', function() {
+        document.getElementById('deleteButton').addEventListener('click', () => {
             mode = 'erase';
         });
 
-        // Обработка кликов в зависимости от текущего режима
-        document.querySelector('.container').addEventListener('click', function(e) {
+        let mode = '';
+
+        document.querySelector('.container').addEventListener('click', (e) => {
             if (e.target && e.target.nodeName === 'DIV') {
                 if (mode === 'draw') {
                     e.target.style.backgroundColor = 'black';
