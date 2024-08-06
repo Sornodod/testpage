@@ -40,6 +40,22 @@
         .tech-button {
             margin-left: auto;
         }
+        .popup {
+            display: none; /* Скрываем выпадающее окно по умолчанию */
+            position: absolute;
+            bottom: 50px; /* Положение окна выше кнопок */
+            left: 0;
+            width: 100%;
+            background-color: white;
+            border: 1px solid black;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .popup button {
+            padding: 5px 10px;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
@@ -47,9 +63,23 @@
         <!-- Содержимое рамки -->
     </div>
     <div class="buttons">
-        <button>ПОСТРОИТЬ</button>
+        <button id="buildButton">ПОСТРОИТЬ</button>
         <button>УДАЛИТЬ</button>
         <button class="tech-button">ТЕХНОЛОГИИ</button>
     </div>
+    <div class="popup" id="popup">
+        <button id="roadButton">ДОРОГА</button>
+    </div>
+
+    <script>
+        document.getElementById('buildButton').addEventListener('click', function() {
+            var popup = document.getElementById('popup');
+            if (popup.style.display === 'none' || popup.style.display === '') {
+                popup.style.display = 'block';
+            } else {
+                popup.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
