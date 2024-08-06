@@ -15,28 +15,28 @@
             background-color: white;
         }
         .start-button {
-            position: fixed; /* Фиксированное позиционирование */
+            position: fixed;
             top: 10px;
             left: 10px;
             padding: 10px 15px;
-            font-size: 0.75rem; /* Размер шрифта как у остальных кнопок */
-            background-color: #007bff; /* Цвет фона как у остальных кнопок */
-            color: white; /* Цвет текста как у остальных кнопок */
+            font-size: 0.75rem;
+            background-color: #007bff;
+            color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            z-index: 10; /* Убедитесь, что кнопка поверх других элементов */
+            z-index: 10;
         }
         .container {
             width: 100%;
-            height: calc(100% - 60px); /* Учтите высоту кнопок */
+            height: calc(100% - 60px);
             border: 1px solid black;
             box-sizing: border-box;
             position: relative;
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
             grid-template-rows: repeat(auto-fill, minmax(20px, 1fr));
-            margin-top: 50px; /* Отступ сверху, чтобы не перекрывалась кнопкой */
+            margin-top: 50px;
         }
         .container div {
             background-color: white;
@@ -105,20 +105,12 @@
             const columns = Math.floor(window.innerWidth / cellSize);
             const rows = Math.floor((window.innerHeight - 60) / cellSize);
 
+            // Установить размеры контейнера
             container.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
             container.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
 
-            for (let i = 0; i < columns * rows; i++) {
-                const cell = document.createElement('div');
-                container.appendChild(cell);
-            }
-
-            window.addEventListener('resize', () => {
-                const columns = Math.floor(window.innerWidth / cellSize);
-                const rows = Math.floor((window.innerHeight - 60) / cellSize);
-                container.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
-                container.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
-            });
+            // Генерация ячеек
+            container.innerHTML = Array(columns * rows).fill('<div></div>').join('');
 
             function getRandomInt(max) {
                 return Math.floor(Math.random() * max);
@@ -156,6 +148,15 @@
 
             // Вызвать функцию после загрузки контента
             placeColors();
+
+            // Обработка изменения размера окна
+            window.addEventListener('resize', () => {
+                const columns = Math.floor(window.innerWidth / cellSize);
+                const rows = Math.floor((window.innerHeight - 60) / cellSize);
+                container.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+                container.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+                placeColors(); // Переместите размещение цветов при изменении размера
+            });
         });
 
         let mode = '';
