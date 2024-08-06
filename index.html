@@ -28,6 +28,12 @@
                               linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
             background-size: 10px 10px;
         }
+        .container div {
+            width: 10px;
+            height: 10px;
+            background-color: white;
+            border: 1px solid transparent; /* Добавляем прозрачную границу для управления событиями клика */
+        }
         .buttons {
             position: absolute;
             bottom: 0;
@@ -67,6 +73,14 @@
 <body>
     <div class="container">
         <!-- Содержимое рамки -->
+        <!-- Генерируем ячейки сетки -->
+        <script>
+            const container = document.querySelector('.container');
+            for (let i = 0; i < 6000; i++) { // 100x60 = 6000 ячеек
+                const cell = document.createElement('div');
+                container.appendChild(cell);
+            }
+        </script>
     </div>
     <div class="buttons">
         <button id="buildButton">ПОСТРОИТЬ</button>
@@ -78,13 +92,19 @@
     </div>
 
     <script>
+        // Показываем/скрываем всплывающее окно
         document.getElementById('buildButton').addEventListener('click', function() {
             var popup = document.getElementById('popup');
-            if (popup.style.display === 'none' || popup.style.display === '') {
-                popup.style.display = 'block';
-            } else {
-                popup.style.display = 'none';
-            }
+            popup.style.display = (popup.style.display === 'none' || popup.style.display === '') ? 'block' : 'none';
+        });
+
+        // Окрашивание ячеек в черный цвет
+        document.getElementById('roadButton').addEventListener('click', function() {
+            document.querySelector('.container').addEventListener('click', function(e) {
+                if (e.target && e.target.nodeName === 'DIV') {
+                    e.target.style.backgroundColor = 'black';
+                }
+            });
         });
     </script>
 </body>
