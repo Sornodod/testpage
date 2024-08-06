@@ -21,6 +21,12 @@
             box-sizing: border-box;
             position: relative;
             background-color: white; /* Белый фон рамки */
+            display: grid;
+            grid-template-columns: repeat(auto-fill, 10px);
+            grid-template-rows: repeat(auto-fill, 10px);
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+            background-size: 10px 10px;
         }
         .buttons {
             position: absolute;
