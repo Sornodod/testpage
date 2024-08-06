@@ -27,20 +27,15 @@
             cursor: pointer;
             z-index: 10;
         }
-        .container {
+        .canvas-container {
+            position: relative;
             width: 100%;
             height: calc(100% - 60px);
-            border: 1px solid black;
-            box-sizing: border-box;
-            position: relative;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
-            grid-template-rows: repeat(auto-fill, minmax(20px, 1fr));
             margin-top: 50px;
         }
-        .container div {
-            background-color: white;
-            border: 1px solid rgba(0, 0, 0, 0.1);
+        canvas {
+            width: 100%;
+            height: 100%;
         }
         .buttons {
             position: absolute;
@@ -87,7 +82,9 @@
 </head>
 <body>
     <button class="start-button">НАЧАТЬ</button>
-    <div class="container"></div>
+    <div class="canvas-container">
+        <canvas id="gridCanvas"></canvas>
+    </div>
     <div class="buttons">
         <button id="buildButton">ПОСТРОИТЬ</button>
         <button id="deleteButton">УДАЛИТЬ</button>
@@ -100,17 +97,34 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const container = document.querySelector('.container');
+            const canvas = document.getElementById('gridCanvas');
+            const ctx = canvas.getContext('2d');
             const cellSize = 20;
-            const columns = Math.floor(window.innerWidth / cellSize);
-            const rows = Math.floor((window.innerHeight - 60) / cellSize);
+            let columns, rows;
 
-            // Установить размеры контейнера
-            container.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
-            container.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight - 60;
+                columns = Math.floor(canvas.width / cellSize);
+                rows = Math.floor(canvas.height / cellSize);
+                drawGrid();
+                placeColors();
+            }
 
-            // Генерация ячеек
-            container.innerHTML = Array(columns * rows).fill('<div></div>').join('');
+            function drawGrid() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)';
+                ctx.lineWidth = 1;
+                for (let x = 0; x <= canvas.width; x += cellSize) {
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, canvas.height);
+                }
+                for (let y = 0; y <= canvas.height; y += cellSize) {
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(canvas.width, y);
+                }
+                ctx.stroke();
+            }
 
             function getRandomInt(max) {
                 return Math.floor(Math.random() * max);
@@ -121,42 +135,25 @@
             }
 
             function placeColors() {
-                const columns = Math.floor(window.innerWidth / cellSize);
-                const rows = Math.floor((window.innerHeight - 60) / cellSize);
-
-                let x1 = getRandomInt(columns);
-                let y1 = getRandomInt(rows);
+                const x1 = getRandomInt(columns);
+                const y1 = getRandomInt(rows);
                 let x2 = getRandomInt(columns);
                 let y2 = getRandomInt(rows);
 
-                // Обеспечиваем, чтобы красная и зелёная ячейки были на большом расстоянии друг от друга
                 while (getDistance(x1, y1, x2, y2) < 20) {
                     x2 = getRandomInt(columns);
                     y2 = getRandomInt(rows);
                 }
 
-                const index1 = y1 * columns + x1;
-                const index2 = y2 * columns + x2;
-                const cells = document.querySelectorAll('.container div');
+                ctx.fillStyle = 'red';
+                ctx.fillRect(x1 * cellSize, y1 * cellSize, cellSize, cellSize);
 
-                // Сначала сбрасываем цвет всех ячеек
-                cells.forEach(cell => cell.style.backgroundColor = 'white');
-
-                cells[index1].style.backgroundColor = 'red';
-                cells[index2].style.backgroundColor = 'green';
+                ctx.fillStyle = 'green';
+                ctx.fillRect(x2 * cellSize, y2 * cellSize, cellSize, cellSize);
             }
 
-            // Вызвать функцию после загрузки контента
-            placeColors();
-
-            // Обработка изменения размера окна
-            window.addEventListener('resize', () => {
-                const columns = Math.floor(window.innerWidth / cellSize);
-                const rows = Math.floor((window.innerHeight - 60) / cellSize);
-                container.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
-                container.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
-                placeColors(); // Переместите размещение цветов при изменении размера
-            });
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
         });
 
         let mode = '';
@@ -176,18 +173,6 @@
 
         document.getElementById('deleteButton').addEventListener('click', () => {
             mode = 'erase';
-        });
-
-        document.querySelector('.container').addEventListener('click', (e) => {
-            if (e.target && e.target.nodeName === 'DIV') {
-                if (mode === 'draw') {
-                    e.target.style.backgroundColor = 'black';
-                } else if (mode === 'tower') {
-                    e.target.style.backgroundColor = 'blue';
-                } else if (mode === 'erase') {
-                    e.target.style.backgroundColor = 'white';
-                }
-            }
         });
     </script>
 </body>
