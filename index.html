@@ -19,9 +19,9 @@
             top: 10px;
             left: 10px;
             padding: 10px 15px;
-            font-size: 1rem;
-            background-color: #007bff;
-            color: white;
+            font-size: 0.75rem; /* Размер шрифта как у остальных кнопок */
+            background-color: #007bff; /* Цвет фона как у остальных кнопок */
+            color: white; /* Цвет текста как у остальных кнопок */
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -29,14 +29,14 @@
         }
         .container {
             width: 100%;
-            height: calc(100% - 60px);
+            height: calc(100% - 60px); /* Учтите высоту кнопок */
             border: 1px solid black;
             box-sizing: border-box;
             position: relative;
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
             grid-template-rows: repeat(auto-fill, minmax(20px, 1fr));
-            margin-top: 50px; /* Добавляем отступ сверху, чтобы не перекрывалась кнопкой */
+            margin-top: 50px; /* Отступ сверху, чтобы не перекрывалась кнопкой */
         }
         .container div {
             background-color: white;
@@ -53,9 +53,14 @@
             box-sizing: border-box;
             background-color: white;
         }
-        .buttons button {
+        .buttons button, .start-button {
             padding: 10px 15px;
             font-size: 0.75rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
         .tech-button {
             margin-left: auto;
@@ -114,6 +119,43 @@
                 container.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
                 container.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
             });
+
+            function getRandomInt(max) {
+                return Math.floor(Math.random() * max);
+            }
+
+            function getDistance(x1, y1, x2, y2) {
+                return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+            }
+
+            function placeColors() {
+                const columns = Math.floor(window.innerWidth / cellSize);
+                const rows = Math.floor((window.innerHeight - 60) / cellSize);
+
+                let x1 = getRandomInt(columns);
+                let y1 = getRandomInt(rows);
+                let x2 = getRandomInt(columns);
+                let y2 = getRandomInt(rows);
+
+                // Обеспечиваем, чтобы красная и зелёная ячейки были на большом расстоянии друг от друга
+                while (getDistance(x1, y1, x2, y2) < 20) {
+                    x2 = getRandomInt(columns);
+                    y2 = getRandomInt(rows);
+                }
+
+                const index1 = y1 * columns + x1;
+                const index2 = y2 * columns + x2;
+                const cells = document.querySelectorAll('.container div');
+
+                // Сначала сбрасываем цвет всех ячеек
+                cells.forEach(cell => cell.style.backgroundColor = 'white');
+
+                cells[index1].style.backgroundColor = 'red';
+                cells[index2].style.backgroundColor = 'green';
+            }
+
+            // Вызвать функцию после загрузки контента
+            placeColors();
         });
 
         let mode = '';
