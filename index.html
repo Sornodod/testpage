@@ -22,12 +22,12 @@
             position: relative;
             background-color: white; /* Белый фон рамки */
             display: grid;
-            grid-template-columns: repeat(100, 10px); /* 100 колонок по 10px */
-            grid-template-rows: repeat(60, 10px); /* 60 строк по 10px */
+            grid-template-columns: repeat(50, 20px); /* 50 колонок по 20px */
+            grid-template-rows: repeat(30, 20px); /* 30 строк по 20px */
         }
         .container div {
-            width: 10px;
-            height: 10px;
+            width: 20px;
+            height: 20px;
             background-color: white;
             border: 1px solid rgba(0, 0, 0, 0.1); /* Легкая граница для видимости */
         }
@@ -73,7 +73,7 @@
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 const container = document.querySelector('.container');
-                const totalCells = 100 * 60; // 100 колонок x 60 строк
+                const totalCells = 50 * 30; // 50 колонок x 30 строк
                 for (let i = 0; i < totalCells; i++) {
                     const cell = document.createElement('div');
                     container.appendChild(cell);
