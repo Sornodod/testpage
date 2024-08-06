@@ -106,22 +106,6 @@
                 container.appendChild(cell);
             }
 
-            function placeColors() {
-                const x1 = Math.floor(Math.random() * columns);
-                const y1 = Math.floor(Math.random() * rows);
-                const x2 = Math.floor(Math.random() * columns);
-                const y2 = Math.floor(Math.random() * rows);
-
-                const index1 = y1 * columns + x1;
-                const index2 = y2 * columns + x2;
-                const cells = document.querySelectorAll('.container div');
-
-                cells[index1].style.backgroundColor = 'red';
-                cells[index2].style.backgroundColor = 'green';
-            }
-
-            placeColors();
-
             window.addEventListener('resize', () => {
                 const columns = Math.floor(window.innerWidth / cellSize);
                 const rows = Math.floor((window.innerHeight - 60) / cellSize);
@@ -130,9 +114,11 @@
             });
         });
 
+        let mode = '';
+
         document.getElementById('buildButton').addEventListener('click', () => {
-            document.getElementById('popup').style.display = 
-                document.getElementById('popup').style.display === 'none' ? 'flex' : 'none';
+            const popup = document.getElementById('popup');
+            popup.style.display = (popup.style.display === 'none' || popup.style.display === '') ? 'flex' : 'none';
         });
 
         document.getElementById('roadButton').addEventListener('click', () => {
@@ -146,8 +132,6 @@
         document.getElementById('deleteButton').addEventListener('click', () => {
             mode = 'erase';
         });
-
-        let mode = '';
 
         document.querySelector('.container').addEventListener('click', (e) => {
             if (e.target && e.target.nodeName === 'DIV') {
