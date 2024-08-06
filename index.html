@@ -91,29 +91,27 @@
     </div>
 
     <script>
-        // Показываем/скрываем всплывающее окно
-        document.getElementById('buildButton').addEventListener('click', function() {
-            var popup = document.getElementById('popup');
-            popup.style.display = (popup.style.display === 'none' || popup.style.display === '') ? 'block' : 'none';
-        });
-
         // Переменная для отслеживания текущего режима
         let mode = '';
+
+        // Показываем/скрываем всплывающее окно
+        document.getElementById('buildButton').addEventListener('click', function() {
+            const popup = document.getElementById('popup');
+            popup.style.display = (popup.style.display === 'none' || popup.style.display === '') ? 'block' : 'none';
+        });
 
         // Переключение на режим "Рисование дороги"
         document.getElementById('roadButton').addEventListener('click', function() {
             mode = 'draw';
-            document.querySelector('.container').addEventListener('click', handleClick);
         });
 
         // Переключение на режим "Удаление окраски"
         document.getElementById('deleteButton').addEventListener('click', function() {
             mode = 'erase';
-            document.querySelector('.container').addEventListener('click', handleClick);
         });
 
         // Обработка кликов в зависимости от текущего режима
-        function handleClick(e) {
+        document.querySelector('.container').addEventListener('click', function(e) {
             if (e.target && e.target.nodeName === 'DIV') {
                 if (mode === 'draw') {
                     e.target.style.backgroundColor = 'black';
@@ -121,11 +119,6 @@
                     e.target.style.backgroundColor = 'white';
                 }
             }
-        }
-
-        // Отключаем обработчик кликов при переключении режима
-        document.querySelector('.container').addEventListener('mousedown', function() {
-            document.querySelector('.container').removeEventListener('click', handleClick);
         });
     </script>
 </body>
