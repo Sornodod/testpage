@@ -67,7 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function placeColors() {
-        // Убедимся, что функция вызывается и работает правильно
         console.log('Placing colors');
 
         const x1 = getRandomInt(columns);
@@ -92,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const y = Math.floor((event.clientY - rect.top) / cellSize);
 
         if (x >= 0 && x < columns && y >= 0 && y < rows) {
+            const currentState = cellStates[y][x];
             switch (mode) {
                 case 'draw':
                     cellStates[y][x] = 'black'; // Устанавливаем цвет для режима "ДОРОГА"
@@ -100,7 +100,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     cellStates[y][x] = 'blue'; // Устанавливаем цвет для режима "БАШНЯ"
                     break;
                 case 'erase':
-                    cellStates[y][x] = null; // Очищаем только выбранную ячейку
+                    if (currentState !== 'red' && currentState !== 'green') {
+                        cellStates[y][x] = null; // Очищаем только выбранную ячейку, если она не красная или зелёная
+                    }
                     break;
             }
             drawCells(); // Перерисовываем ячейки с обновленным состоянием
