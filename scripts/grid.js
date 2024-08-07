@@ -8,8 +8,9 @@ export function initializeGrid(ctx) {
 
 export function resizeCanvas() {
     const canvas = document.getElementById('gridCanvas');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight - 60;
+    const container = document.querySelector('.canvas-container');
+    canvas.width = container.clientWidth;
+    canvas.height = container.clientHeight;
     columns = Math.floor(canvas.width / cellSize);
     rows = Math.floor(canvas.height / cellSize);
     drawGrid();
@@ -42,12 +43,12 @@ function getDistance(x1, y1, x2, y2) {
 
 function placeColors() {
     const ctx = window.ctx;
-    const x1 = getRandomInt(columns);
-    const y1 = getRandomInt(rows);
+    let x1 = getRandomInt(columns);
+    let y1 = getRandomInt(rows);
     let x2 = getRandomInt(columns);
     let y2 = getRandomInt(rows);
 
-    while (getDistance(x1, y1, x2, y2) < 20) {
+    while (getDistance(x1, y1, x2, y2) < Math.min(columns, rows) / 2) {
         x2 = getRandomInt(columns);
         y2 = getRandomInt(rows);
     }
