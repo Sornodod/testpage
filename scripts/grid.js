@@ -60,6 +60,7 @@ function placeColors() {
 }
 
 export function handleCanvasClick(event) {
+    const canvas = document.getElementById('gridCanvas');
     const rect = canvas.getBoundingClientRect();
     const x = Math.floor((event.clientX - rect.left) / cellSize);
     const y = Math.floor((event.clientY - rect.top) / cellSize);
