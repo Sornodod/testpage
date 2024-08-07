@@ -60,4 +60,25 @@ function placeColors() {
 }
 
 export function handleCanvasClick(event) {
-    const canvas
+    const canvas = document.getElementById('gridCanvas');
+    const rect = canvas.getBoundingClientRect();
+    const x = Math.floor((event.clientX - rect.left) / cellSize);
+    const y = Math.floor((event.clientY - rect.top) / cellSize);
+
+    if (x >= 0 && x < columns && y >= 0 && y < rows) {
+        const ctx = window.ctx;
+        switch (mode) {
+            case 'draw':
+                ctx.fillStyle = 'black'; // Цвет для режима "ДОРОГА"
+                ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+                break;
+            case 'tower':
+                ctx.fillStyle = 'blue'; // Цвет для режима "БАШНЯ"
+                ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+                break;
+            case 'erase':
+                ctx.clearRect(x * cellSize, y * cellSize, cellSize, cellSize);
+                break;
+        }
+    }
+}
