@@ -92,20 +92,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (x >= 0 && x < columns && y >= 0 && y < rows) {
             const currentState = cellStates[y][x];
-            switch (mode) {
-                case 'draw':
-                    cellStates[y][x] = 'black'; // Устанавливаем цвет для режима "ДОРОГА"
-                    break;
-                case 'tower':
-                    cellStates[y][x] = 'blue'; // Устанавливаем цвет для режима "БАШНЯ"
-                    break;
-                case 'erase':
-                    if (currentState !== 'red' && currentState !== 'green') {
-                        cellStates[y][x] = null; // Очищаем только выбранную ячейку, если она не красная или зелёная
-                    }
-                    break;
+            if (currentState !== 'red' && currentState !== 'green') {
+                switch (mode) {
+                    case 'draw':
+                        cellStates[y][x] = 'black'; // Устанавливаем цвет для режима "ДОРОГА"
+                        break;
+                    case 'tower':
+                        if (currentState !== 'black') { // Не разрешаем перекрашивать черные ячейки в синие
+                            cellStates[y][x] = 'blue'; // Устанавливаем цвет для режима "БАШНЯ"
+                        }
+                        break;
+                    case 'erase':
+                        cellStates[y][x] = null; // Очищаем только выбранную ячейку
+                        break;
+                }
+                drawCells(); // Перерисовываем ячейки с обновленным состоянием
             }
-            drawCells(); // Перерисовываем ячейки с обновленным состоянием
         }
     }
 
